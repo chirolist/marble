@@ -1,0 +1,268 @@
+:root {
+  color-scheme: light;
+  --ink: #243036;
+  --muted: #66737a;
+  --paper-0: #f6f3ee;
+  --paper-1: #e4e8eb;
+  --paper-2: #c5ced4;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100dvh;
+  color: var(--ink);
+  background:
+    radial-gradient(1100px 720px at 50% 18%, var(--paper-0) 0%, var(--paper-1) 52%, var(--paper-2) 100%);
+  font-family: "Avenir Next", "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.marble {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding:
+    calc(18px + env(safe-area-inset-top))
+    16px
+    calc(18px + env(safe-area-inset-bottom));
+}
+
+.marble-header {
+  text-align: center;
+}
+
+.marble-header h1 {
+  margin: 0;
+  font-family: "Iowan Old Style", Palatino, "Palatino Linotype", "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif JP", serif;
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: 0.38em;
+  text-indent: 0.38em;
+  color: #2a343a;
+}
+
+.marble-hint {
+  margin: 8px 0 0;
+  min-height: 1.2em;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  opacity: 0.85;
+  transition: opacity 0.5s ease;
+}
+
+.marble-hint.is-hidden {
+  opacity: 0;
+}
+
+.marble-palette {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.marble-swatch {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 2px solid rgba(255, 255, 255, 0.92);
+  border-radius: 50%;
+  box-shadow:
+    0 1px 2px rgba(30, 40, 48, 0.18),
+    inset 0 -4px 6px rgba(0, 0, 0, 0.14);
+  cursor: pointer;
+}
+
+.marble-swatch[aria-pressed="true"] {
+  outline: 2px solid #2c383e;
+  outline-offset: 3px;
+}
+
+.marble-custom {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  padding: 3px;
+  background: conic-gradient(from 20deg, #e24b3a, #f0c21a, #2ea15a, #2f6fe0, #8a45b8, #e24b3a);
+  box-shadow: 0 1px 2px rgba(30, 40, 48, 0.16);
+  cursor: pointer;
+}
+
+.marble-custom span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.92);
+  box-shadow: inset 0 -3px 5px rgba(0, 0, 0, 0.12);
+}
+
+.marble-custom[data-pressed="true"] {
+  outline: 2px solid #2c383e;
+  outline-offset: 3px;
+}
+
+.marble-custom input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.marble-stage-wrap {
+  width: min(440px, calc(100vw - 36px), calc((100dvh - 210px) * 0.625));
+  display: flex;
+  justify-content: center;
+}
+
+.marble-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 5 / 8;
+  border-radius: 18px 18px 36px 36px;
+  background: #d7e7eb;
+  box-shadow:
+    0 28px 50px rgba(48, 62, 72, 0.16),
+    0 2px 0 rgba(255, 255, 255, 0.75);
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+}
+
+.marble-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: pointer;
+}
+
+.marble-glass {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow:
+    inset 0 0 0 1.5px rgba(255, 255, 255, 0.72),
+    inset 0 0 0 8px rgba(255, 255, 255, 0.07),
+    inset 14px 0 22px rgba(255, 255, 255, 0.2),
+    inset -12px 0 18px rgba(80, 104, 116, 0.08);
+}
+
+.marble-glass::before {
+  content: "";
+  position: absolute;
+  left: 7%;
+  top: 5%;
+  width: 8px;
+  height: 38%;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.02));
+}
+
+.marble-glass::after {
+  content: "";
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 0;
+  height: 14px;
+  border-radius: 0 0 28px 28px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.28));
+}
+
+.marble-error {
+  position: absolute;
+  inset: 16px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #3d4a50;
+  font-size: 14px;
+  line-height: 1.6;
+  z-index: 3;
+}
+
+.marble-controls {
+  min-height: 42px;
+}
+
+.marble-reset {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: #5d6a70;
+  letter-spacing: 0.2em;
+  font-size: 13px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.marble-reset:hover {
+  background: rgba(255, 255, 255, 0.48);
+  color: #243036;
+}
+
+.marble-reset:focus-visible,
+.marble-swatch:focus-visible,
+.marble-custom:focus-within {
+  outline: 2px solid #2c383e;
+  outline-offset: 3px;
+}
+
+@media (pointer: coarse) {
+  .marble-palette {
+    gap: 10px;
+  }
+
+  .marble-swatch {
+    width: 42px;
+    height: 42px;
+  }
+
+  .marble-custom {
+    width: 48px;
+    height: 48px;
+  }
+
+  .marble-reset {
+    font-size: 15px;
+    padding: 12px 20px;
+  }
+}
+
+@media (max-height: 740px) {
+  .marble {
+    gap: 10px;
+    justify-content: flex-start;
+  }
+
+  .marble-header h1 {
+    font-size: 22px;
+  }
+
+  .marble-stage-wrap {
+    width: min(440px, calc(100vw - 28px), calc((100dvh - 168px) * 0.625));
+  }
+}
